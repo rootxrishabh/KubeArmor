@@ -138,6 +138,12 @@ func snitch() {
 	ociHooksLabel := "no"
 	if runtime == "cri-o" || EnableOCIHooks {
 		ociHooksLabel = "yes"
+
+		// Currently this is only required for cri-o, we are yet to understand the RCA behind this
+		if runtime == "cri-o" {
+			socket = "unix://" + socket
+		}
+
 		if err := applyCRIOHook(socket); err != nil {
 			Logger.Errorf("Failed to apply OCI hook: %s", err.Error())
 			ociHooksLabel = "no"
@@ -184,7 +190,7 @@ func snitch() {
 }
 
 func applyCRIOHook(socket string) error {
-	// TODO: hook path should be fetched from container runtime. This is the default path
+	// TODO: hook path should be fetched from container runtime. This is the default path. As of now, both cri-o and containerd use the same path.
 	hookDir := "/usr/share/containers/oci/hooks.d/"
 	if err := os.MkdirAll(hookDir, 0750); err != nil {
 		return err
@@ -195,6 +201,7 @@ func applyCRIOHook(socket string) error {
 	}
 	defer dst.Close()
 	always := true
+	if 
 	hook := hooks.Hook{
 		Version: "1.0.0",
 		Hook: specs.Hook{
