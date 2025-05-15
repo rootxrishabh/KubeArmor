@@ -40,6 +40,17 @@ jobs:
             : ref.replace(/^refs\/[^/]+\//, "");
           core.setOutput("tag", tag);
           core.info(`tag: ${tag}`)
+    - name: Get tag
+      id: match
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const stableBranch = fs.readFileSync('STABLE-RELEASE', 'utf8').trim();
+          core.info(`stableBranch: ${stableBranch}`)
+          const ref = context.ref;
+          const isMatch = ref === `refs/heads/${stableBranch}`;
+          core.setOutput('tag', isMatch.toString());
     - uses: dorny/paths-filter@v2
       id: filter
       with:
