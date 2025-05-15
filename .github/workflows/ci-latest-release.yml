@@ -156,7 +156,7 @@ jobs:
   kubearmor-controller-release:
     name: Build & Push KubeArmorController
     needs: check
-    if: github.repository == 'kubearmor/kubearmor' && (needs.check.outputs.controller == 'true' || ${{ github.ref }} != 'refs/heads/main')
+    
     defaults:
       run:
         working-directory: ./pkg/KubeArmorController
