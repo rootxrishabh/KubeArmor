@@ -22,7 +22,6 @@ permissions: read-all
 jobs:
   check:
     name: Check what pkg were updated
-    if: github.repository == 'kubearmor/kubearmor'
     runs-on: ubuntu-22.04
     timeout-minutes: 5
     outputs:
