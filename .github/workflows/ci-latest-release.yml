@@ -39,6 +39,7 @@ jobs:
             ? "latest"
             : ref.replace(/^refs\/[^/]+\//, "");
           core.setOutput("tag", tag);
+          core.info(`tag: ${tag}`)
     - uses: dorny/paths-filter@v2
       id: filter
       with:
