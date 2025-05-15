@@ -211,6 +211,12 @@ type K8sKubeArmorHostPolicies struct {
 	Items []K8sKubeArmorHostPolicy `json:"items"`
 }
 
+// ExecEvent struct
+type ExecEvent struct {
+	ExecID         string
+	ExecutableName string
+}
+
 // ============= //
 // == Logging == //
 // ============= //
@@ -242,6 +248,9 @@ type Log struct {
 	PPID     int32 `json:"ppid"`
 	PID      int32 `json:"pid"`
 	UID      int32 `json:"uid"`
+
+	// exec
+	ExecEvent ExecEvent `json:"execEvent"`
 
 	// process
 	ParentProcessName string `json:"parentProcessName"`
@@ -543,6 +552,8 @@ const (
 	FilelessExec PresetName = "filelessExec"
 	// ProtectEnv Preset
 	ProtectEnv PresetName = "protectEnv"
+	// Exec Preset
+	Exec PresetName = "exec"
 )
 
 // SecuritySpec Structure
@@ -558,7 +569,7 @@ type SecuritySpec struct {
 
 	AppArmor string `json:"apparmor,omitempty"`
 
-	Severity int      `json:"severity"`
+	Severity int      `json:"severity,omitempty"`
 	Tags     []string `json:"tags,omitempty"`
 	Message  string   `json:"message,omitempty"`
 	Action   string   `json:"action"`
@@ -592,7 +603,7 @@ type HostSecuritySpec struct {
 
 	AppArmor string `json:"apparmor,omitempty"`
 
-	Severity int      `json:"severity"`
+	Severity int      `json:"severity,omitempty"`
 	Tags     []string `json:"tags,omitempty"`
 	Message  string   `json:"message,omitempty"`
 	Action   string   `json:"action"`

@@ -24,7 +24,7 @@ jobs:
   kubearmor-operator-release:
     name: Build & Push KubeArmor Operator
     if: github.repository == 'kubearmor/kubearmor'        
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     permissions:
       id-token: write
     timeout-minutes: 90
@@ -51,12 +51,12 @@ jobs:
       
       - name: Get Tag
         id: vars
-        run: |
-          if [ ${{ github.ref }} == "refs/heads/main" ]; then
-            echo "tag=latest" >> $GITHUB_OUTPUT
-          else
-            echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-          fi
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const ref = github.context.ref;
+            const tag = ref === "refs/heads/main" ? "latest" : ref.replace(/^refs\/[^/]+\//, "");
+            core.setOutput("tag", tag);
 
       - name: Build & Push KubeArmor Operator
         working-directory: ./pkg/KubeArmorOperator
