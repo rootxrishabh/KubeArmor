@@ -34,7 +34,7 @@ jobs:
       uses: actions/github-script@v7
       with:
         script: |
-          const ref = github.context.ref;
+          const ref = context.ref;
           const tag = ref === "refs/heads/main"
             ? "latest"
             : ref.replace(/^refs\/[^/]+\//, "");
@@ -76,7 +76,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const ref = github.context.ref;
+            const ref = context.ref;
             const tag = ref === "refs/heads/main" ? "latest" : ref.replace(/^refs\/[^/]+\//, "");
             core.setOutput("tag", tag);
       
@@ -142,7 +142,7 @@ jobs:
           script: |
             const fs = require('fs');
             const stableBranch = fs.readFileSync('STABLE-RELEASE', 'utf8').trim();
-            const ref = github.context.ref;
+            const ref = context.ref;
             const isMatch = ref === `refs/heads/${stableBranch}`;
             core.setOutput('tag', isMatch.toString());
       
@@ -177,7 +177,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const ref = github.context.ref;
+            const ref = context.ref;
             const tag = ref === "refs/heads/main"
               ? "latest"
               : ref.replace(/^refs\/[^/]+\//, "");
